@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}You won! — Wikipedia Game{% endblock %}
+{% block body %}
+<div class="win-screen">
+  <div class="win-trophy">&#127942;</div>
+  <h1>You made it!</h1>
+  <p>
+    <strong>{{ start }}</strong>
+    &nbsp;&#8594;&nbsp;
+    <strong>{{ target }}</strong>
+  </p>
+
+  <div class="win-stats">
+    <div class="stat">
+      <div class="stat-value">{{ path | length - 1 }}</div>
+      <div class="stat-label">Hop{{ 's' if path | length - 1 != 1 }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">
+        {% set s = elapsed | int %}
+        {% if s >= 60 %}{{ s // 60 }}m {{ s % 60 }}s{% else %}{{ s }}s{% endif %}
+      </div>
+      <div class="stat-label">Time</div>
+    </div>
+  </div>
+
+  <h3>Your path</h3>
+  <ol class="path-list">
+    {% for step in path %}
+    <li>{{ step }}</li>
+    {% endfor %}
+  </ol>
+
+  <a href="/" class="btn-play-again">Play again</a>
+</div>
+{% endblock %}

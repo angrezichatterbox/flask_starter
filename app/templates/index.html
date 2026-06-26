@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="home">
+  <h1>Wikipedia Game</h1>
+  <p>You'll be given a <strong>start</strong> article and a <strong>target</strong> article.</p>
+  <p>Navigate from start to target by clicking only links within Wikipedia articles.</p>
+  <p>Reach the target in as few hops as possible.</p>
+  <form method="POST" action="/start">
+    <button type="submit" class="btn-start">Start New Game</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }} — Wikipedia Game{% endblock %}
+{% block body %}
+
+<div class="gamebar">
+  <div class="gamebar-route">
+    <span class="label">Start:</span>
+    <strong>{{ game.start }}</strong>
+    <span class="arrow">&#8594;</span>
+    <span class="label">Target:</span>
+    <strong class="target-name">{{ game.target }}</strong>
+  </div>
+  <div class="gamebar-stats">
+    <span>Hops: <strong>{{ game.path | length - 1 }}</strong></span>
+    <span id="timer-display">0s</span>
+    <form method="POST" action="/give-up"
+          onsubmit="return confirm('Give up this game?')">
+      <button type="submit" class="give-up-btn">Give Up</button>
+    </form>
+  </div>
+</div>
+
+<div class="path-bar">
+  {% for step in game.path %}
+    {% if not loop.first %}<span class="sep">›</span>{% endif %}
+    <span class="{% if loop.last %}current{% endif %}">{{ step }}</span>
+  {% endfor %}
+</div>
+
+<div class="article-content">
+  <h1>{{ article.title }}</h1>
+  {{ article.html | safe }}
+</div>
+
+<script>
+  const startMs = {{ game.start_time * 1000 | int }};
+  function tick() {
+    const s = Math.floor((Date.now() - startMs) / 1000);
+    const m = Math.floor(s / 60);
+    document.getElementById('timer-display').textContent =
+      m ? m + 'm ' + (s % 60) + 's' : s + 's';
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+{% endblock %}
